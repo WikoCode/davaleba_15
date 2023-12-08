@@ -44,7 +44,7 @@ class MessagesAdapter : ListAdapter<MessagesItem, MessagesAdapter.MessageViewHol
                             0,
                             0
                         )
-                        tvLastMessage.text = "Sent a voice message"
+                        tvLastMessage.setText(R.string.voice_message)
                     }
 
                     "file" -> {
@@ -54,7 +54,7 @@ class MessagesAdapter : ListAdapter<MessagesItem, MessagesAdapter.MessageViewHol
                             0,
                             0
                         )
-                        tvLastMessage.text = "Sent a file message"
+                        tvLastMessage.setText(R.string.file_message)
                     }
                 }
 

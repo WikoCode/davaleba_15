@@ -6,4 +6,6 @@
     <string name="full_name">Full Name</string>
     <string name="last_message">Last Message</string>
     <string name="_4_20">4:20</string>
+    <string name="voice_message">Sent a voice message</string>
+    <string name="file_message">Sent a file message</string>
 </resources>
