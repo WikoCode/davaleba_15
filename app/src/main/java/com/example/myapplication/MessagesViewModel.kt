@@ -17,6 +17,10 @@ class MessagesViewModel : ViewModel() {
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> get() = _error.asStateFlow()
 
+    private val _filteredItems = MutableStateFlow<List<MessagesItem>>(emptyList())
+    val filteredItems: StateFlow<List<MessagesItem>> get() = _filteredItems.asStateFlow()
+
+
     private val retrofitApi = RetrofitInstance.api
 
     fun getMessages() {
@@ -39,6 +43,12 @@ class MessagesViewModel : ViewModel() {
             } catch (e: Exception) {
                 _error.value = "Error: ${e.message}"
             }
+        }
+    }
+
+    fun search(query: String) {
+        viewModelScope.launch {
+            _filteredItems.value = _items.value.filter { it.owner.contains(query, ignoreCase = true) }
         }
     }
 

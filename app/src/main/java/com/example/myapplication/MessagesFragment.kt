@@ -28,6 +28,7 @@ class MessagesFragment : BaseFragment<FragmentMessagesBinding>(FragmentMessagesB
     }
 
     override fun setupListeners() {
+        setupSearchFunctionality()
     }
 
     private fun setupRecyclerView() {
@@ -40,9 +41,15 @@ class MessagesFragment : BaseFragment<FragmentMessagesBinding>(FragmentMessagesB
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 viewModel.items.collect { messages ->
-                    Log.d("MessagesFragment", "Received messages: $messages")
-
                     adapter.submitList(messages)
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.filteredItems.collect { filteredMessages ->
+                    adapter.submitList(filteredMessages)
                 }
             }
         }
@@ -51,11 +58,18 @@ class MessagesFragment : BaseFragment<FragmentMessagesBinding>(FragmentMessagesB
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 viewModel.error.collect { error ->
                     Log.e("MessagesFragment", "Error: $error")
-
                 }
             }
         }
     }
+
+    private fun setupSearchFunctionality() {
+        binding.btnFilter.setOnClickListener {
+            val query = binding.etSearch.text.toString()
+            viewModel.search(query)
+        }
+    }
+
 
 
 }
